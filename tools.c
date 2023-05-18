@@ -1,24 +1,24 @@
 #include "tools.h"
 void gotoxy(int x, int y)
 {
-	COORD pos = {x, y};												// ÉèÖÃ¹â±êÎ»ÖÃ
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos); // »ñÈ¡±ê×¼Êä³öÉè±¸¾ä±ú£¬Á½¸ö²ÎÊı·Ö±ğÖ¸¶¨ÄÄ¸ö´°Ìå£¬¾ßÌåÎ»ÖÃ
+	COORD pos = { x, y };												// è®¾ç½®å…‰æ ‡ä½ç½®
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos); // è·å–æ ‡å‡†è¾“å‡ºè®¾å¤‡å¥æŸ„ï¼Œä¸¤ä¸ªå‚æ•°åˆ†åˆ«æŒ‡å®šå“ªä¸ªçª—ä½“ï¼Œå…·ä½“ä½ç½®
 }
 
-void getxy(int *x, int *y)
+void getxy(int* x, int* y)
 {
 	CONSOLE_SCREEN_BUFFER_INFO info;
 	HANDLE hOutput;
 	hOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 	GetConsoleScreenBufferInfo(hOutput, &info);
 	*x = info.dwCursorPosition.X;
-	*y = info.dwCursorPosition.Y; // ½« x¡¢y µÄÖµ¸ÄÎªµ±Ç°¹â±êµÄºá×İ×ø±ê
+	*y = info.dwCursorPosition.Y; // å°† xã€y çš„å€¼æ”¹ä¸ºå½“å‰å…‰æ ‡çš„æ¨ªçºµåæ ‡
 }
 
-// ´Ó¼üÅÌÊäÈëÄÚÈİ£¬»Ø³µ½áÊøÊäÈë£¬·µ»ØÊäÈëµÄÄÚÈİ
-int my_num_input(char esc, int tmp_str_len, double *outputf, int *outputi)
+// ä»é”®ç›˜è¾“å…¥å†…å®¹ï¼Œå›è½¦ç»“æŸè¾“å…¥ï¼Œè¿”å›è¾“å…¥çš„å†…å®¹
+int my_num_input(char esc, int tmp_str_len, double* outputf, int* outputi)
 {
-	// Ô­´´º¯Êı
+	// åŸåˆ›å‡½æ•°
 	char c_input[MAX_NUM_LEN];
 	int over_flag = 0;
 	int max_str_len = MAX_NUM_LEN;
@@ -34,14 +34,14 @@ int my_num_input(char esc, int tmp_str_len, double *outputf, int *outputi)
 	start1:
 		ch = getch();
 		if (ch <= 0)
-			getch(); // ·ÀÖ¹ÊäÈëdel¡¢·½Ïò¼üµÈ¼üÎ»ÔÚWindowsµÄÓ³Éä³ÉVK_DELETE¡¢VK_LEFTµÈĞéÄâ¼üÎ»£¬Ê¹µÃgetch()µÃµ½¸ºÊıASCIIÂë¡£
+			getch(); // é˜²æ­¢è¾“å…¥delã€æ–¹å‘é”®ç­‰é”®ä½åœ¨Windowsçš„æ˜ å°„æˆVK_DELETEã€VK_LEFTç­‰è™šæ‹Ÿé”®ä½ï¼Œä½¿å¾—getch()å¾—åˆ°è´Ÿæ•°ASCIIç ã€‚
 		if (ch == 27 && esc == 'y')
 		{
 			gotoxy(x, y);
 			return 1;
 		}
 		else if (ch == 13)
-		{ // »Ø³µ¼ü
+		{ // å›è½¦é”®
 			if (c_input[0] == '\0')
 				goto start1;
 			if (over_flag == 1)
@@ -53,7 +53,7 @@ int my_num_input(char esc, int tmp_str_len, double *outputf, int *outputi)
 			break;
 		}
 		else if (ch == 8 && x > x0)
-		{ // ÍË¸ñ¼ü
+		{ // é€€æ ¼é”®
 			cnt--;
 			x--;
 			gotoxy(x, y);
@@ -66,7 +66,7 @@ int my_num_input(char esc, int tmp_str_len, double *outputf, int *outputi)
 			}
 		}
 		else if (ch == 46 || ch >= 48 && ch <= 57)
-		{ // Êı×Ö
+		{ // æ•°å­—
 			if (cnt < max_str_len)
 			{
 				c_input[cnt] = ch;
@@ -82,7 +82,7 @@ int my_num_input(char esc, int tmp_str_len, double *outputf, int *outputi)
 			}
 			else
 			{
-				printf("\nÊäÈë³¤¶È²»ÄÜ³¬³öÔ¤ÉèÖµ£¡");
+				printf("\nè¾“å…¥é•¿åº¦ä¸èƒ½è¶…å‡ºé¢„è®¾å€¼ï¼");
 				over_flag = 1;
 				gotoxy(x, y);
 			}
@@ -104,9 +104,9 @@ int my_num_input(char esc, int tmp_str_len, double *outputf, int *outputi)
 	return 0;
 }
 
-int my_str_input(char esc, char *output)
+int my_str_input(char esc, char* output)
 {
-	// Ô­´´º¯Êı
+	// åŸåˆ›å‡½æ•°
 	char c_input[MAX_STR_LEN];
 	int max_str_len = MAX_STR_LEN;
 	memset(c_input, 0, MAX_STR_LEN);
@@ -120,20 +120,20 @@ int my_str_input(char esc, char *output)
 	start1:
 		ch = getch();
 		if (ch <= 0)
-			getch(); // ·ÀÖ¹ÊäÈëdel¡¢·½Ïò¼üµÈ¼üÎ»ÔÚWindowsµÄÓ³Éä³ÉVK_DELETE¡¢VK_LEFTµÈĞéÄâ¼üÎ»£¬Ê¹µÃgetch()µÃµ½¸ºÊıASCIIÂë¡£
+			getch(); // é˜²æ­¢è¾“å…¥delã€æ–¹å‘é”®ç­‰é”®ä½åœ¨Windowsçš„æ˜ å°„æˆVK_DELETEã€VK_LEFTç­‰è™šæ‹Ÿé”®ä½ï¼Œä½¿å¾—getch()å¾—åˆ°è´Ÿæ•°ASCIIç ã€‚
 		if (ch == 27 && esc == 'y')
 		{
 			gotoxy(x, y);
 			return 1;
 		}
 		else if (ch == 13)
-		{ // »Ø³µ¼ü
+		{ // å›è½¦é”®
 			if (c_input[0] == '\0')
 				goto start1;
 			break;
 		}
 		else if (ch == 8 && x > x0)
-		{ // ÍË¸ñ¼ü
+		{ // é€€æ ¼é”®
 			cnt--;
 			x--;
 			gotoxy(x, y);
@@ -156,7 +156,7 @@ int my_str_input(char esc, char *output)
 			}
 			else
 			{
-				printf("\nÊäÈë³¤¶È²»ÄÜ³¬³öÔ¤ÉèÖµ£¡");
+				printf("\nè¾“å…¥é•¿åº¦ä¸èƒ½è¶…å‡ºé¢„è®¾å€¼ï¼");
 				gotoxy(x, y);
 			}
 		}
@@ -166,9 +166,9 @@ int my_str_input(char esc, char *output)
 	return 0;
 }
 
-int choice_f(char choice_c, int *choice, int min, int max)
+int choice_f(char choice_c, int* choice, int min, int max)
 {
-	// ×Ô¶¯ÅĞ¶ÏÊäÈë³¤¶ÈµÄÑ¡Ôñº¯Êı
+	// è‡ªåŠ¨åˆ¤æ–­è¾“å…¥é•¿åº¦çš„é€‰æ‹©å‡½æ•°
 	int tmp_len = 0, tmp_max = max;
 	while (tmp_max != 0)
 	{
@@ -185,7 +185,7 @@ int choice_f(char choice_c, int *choice, int min, int max)
 		if (tmp_flag == 0)
 		{
 			gotoxy(a0, b0);
-			printf("\nÊäÈë´íÎó£¬ÇëÖØĞÂÊäÈë : ");
+			printf("\nè¾“å…¥é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ : ");
 			getxy(&a, &b);
 			tmp_flag = 1;
 		}
@@ -201,6 +201,6 @@ int choice_f(char choice_c, int *choice, int min, int max)
 
 void my_pause(void)
 {
-	printf("\n°´ÈÎÒâ¼ü»Øµ½ÉÏ¼¶²Ëµ¥");
+	printf("\næŒ‰ä»»æ„é”®å›åˆ°ä¸Šçº§èœå•");
 	system("pause 1>nul 2>nul");
 }
