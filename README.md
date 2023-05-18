@@ -12,15 +12,15 @@
 - `tools.h`：工具函数的头文件。
 
 ## 程序功能介绍
-- main.c模块是程序的入口，它调用了main_form.c模块来显示主界面，并根据用户的选择进入customer_form.c或admin_form.c模块。
-- 步骤如下
-1. 引入头文件：在文件开头引入了一些必要的头文件，包括stdio.h、stdlib.h、string.h和tools.h等。
-2. 定义常量：在文件开头定义了一些常量，如MAX_DISH_NAME_LEN、MAX_STR_NAME_LEN和MAX_ORDER_NUM等。
-3. 函数声明：在文件开头声明了一些函数，如main_form()、customer_form()和manager_form()等。
-4. 主函数：在main()函数中，使用system("cls")清空屏幕，并打印欢迎信息和身份选择菜单。使用choice_f()函数获取用户输入，并根据用户选择调用相应的函数。
-5. 管理员界面：manager_form()函数提供了管理员界面的各种选项，包括查看订单信息、修改菜单、添加新员工等。
-6. 顾客界面：customer_form()函数提供了顾客界面的各种选项，包括查看菜单、点餐、查看订单信息和结账等。
-7. 订单处理：使用load_order_data()函数从文件中读取订单数据，并将其存储到内存中。使用save_order_data()函数将内存中的订单数据保存到文件中。使用add_order_item()函数向订单中添加新的菜品或饮料，并更新订单总价。使用check_out_order()函数完成支付操作，并将订单状态设置为已支付。
+main.c模块是程序的入口，它调用了main_form.c模块来显示主界面，并根据用户的选择进入customer_form.c或admin_form.c模块。
+步骤如下
+- 引入头文件：在文件开头引入了一些必要的头文件，包括stdio.h、stdlib.h、string.h和tools.h等。
+- 定义常量：在文件开头定义了一些常量，如MAX_DISH_NAME_LEN、MAX_STR_NAME_LEN和MAX_ORDER_NUM等。
+- 函数声明：在文件开头声明了一些函数，如main_form()、customer_form()和manager_form()等。
+- 主函数：在main()函数中，使用system("cls")清空屏幕，并打印欢迎信息和身份选择菜单。使用choice_f()函数获取用户输入，并根据用户选择调用相应的函数。
+- 管理员界面：manager_form()函数提供了管理员界面的各种选项，包括查看订单信息、修改菜单、添加新员工等。
+- 顾客界面：customer_form()函数提供了顾客界面的各种选项，包括查看菜单、点餐、查看订单信息和结账等。
+- 订单处理：使用load_order_data()函数从文件中读取订单数据，并将其存储到内存中。使用save_order_data()函数将内存中的订单数据保存到文件中。使用add_order_item()函数向订单中添加新的菜品或饮料，并更新订单总价。使用check_out_order()函数完成支付操作，并将订单状态设置为已支付。
 
 - main_form.c
   - 在main.c文件中，用户将被要求选择身份（顾客或管理员）。
