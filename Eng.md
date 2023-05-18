@@ -1,5 +1,4 @@
-# Eng
-# order_system
+# Restaurant Ordering System
 
 This is a simple restaurant ordering system consisting of the following files:
 
@@ -10,12 +9,22 @@ This is a simple restaurant ordering system consisting of the following files:
 - `tools.c`: Implementation file for utility functions.
 - `tools.h`: Header file for utility functions.
 
-## Features
+## Program Features
 
-The program provides the following features:
+- The `main.c` module is the entry point of the program, which calls the `main_form.c` module to display the main interface, and enters the `customer_form.c` or `admin_form.c` module based on the user's selection.
 
-1. Administrators can add, delete, and modify menu items, view order information, and sales data.
-2. Customers can browse the menu, place orders, and pay for their meals.
+- The `tools.c` and `tools.h` modules are auxiliary modules of the program, which define some structures, constants, variables, and functions for implementing the basic logic and operations of the program.
+
+- The `customer_form.c` module implements the following features:
+  - Customers can enter the table number to place an order.
+  - Customers can search by dish type, browse the menu, and view prices.
+  - Customers can select the desired dishes and quantities and place an order.
+  - Customers can check the order status, pay the fee, and wait for the food to be served.
+
+- The `admin_form.c` module implements the following features:
+  - The administrator needs to enter a preset password to enter the backend system.
+  - The administrator can confirm customer orders, complete orders, and view revenue.
+  - The administrator can add dishes, delete dishes, and modify prices.
 
 ## File Organization
 
