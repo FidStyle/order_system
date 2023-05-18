@@ -36,9 +36,9 @@ typedef struct b
 
 // 函数声明
 void gotoxy(int x, int y);
-void getxy(int *x, int *y);
-int my_num_input(char esc, int tmp_str_len, double *outputf, int *outputi);
-int my_str_input(char esc, char *output);
-int choice_f(char choice_c, int *choice, int min, int max); // 自动判断输入长度的选择函数
+void getxy(int* x, int* y);
+int my_num_input(char esc, int tmp_str_len, double* outputf, int* outputi);
+int my_str_input(char esc, char* output);
+int choice_f(char choice_c, int* choice, int min, int max); // 自动判断输入长度的选择函数
 void my_pause(void);
 #endif
