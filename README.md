@@ -1,3 +1,4 @@
+# 中文
 # 餐厅点餐系统
 
 这是一个简单的餐厅点餐系统，由以下几个文件构成：
@@ -47,7 +48,7 @@ drink.txt 对应于饮品菜单
 本程序由FidStyle编写，如有问题请联系[FidStyle/order_system (github.com)](https://github.com/FidStyle/order_system)
 
 
-
+# Eng
 # order_system
 
 This is a simple restaurant ordering system consisting of the following files:
