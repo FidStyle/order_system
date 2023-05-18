@@ -1,33 +1,33 @@
 #include "tools.h"
-// Ô¤ÖÃÃÜÂë
+// é¢„ç½®å¯†ç 
 #define PASSWORD "123456"
-// ¶¨Òå³£Á¿
-#define max_str_pw_len 15 // ÃÜÂë×î´ó³¤¶È
-// ±äÁ¿ÉùÃ÷
+// å®šä¹‰å¸¸é‡
+#define max_str_pw_len 15 // å¯†ç æœ€å¤§é•¿åº¦
+// å˜é‡å£°æ˜
 char pw[max_str_pw_len] = PASSWORD;
-// ²¿·ÖÈ«¾Ö±äÁ¿
+// éƒ¨åˆ†å…¨å±€å˜é‡
 char hot_dish_filename[max_str_name_len] = "hot_dish.txt";
 char cold_dish_filename[max_str_name_len] = "cold_dish.txt";
 char staple_food_filename[max_str_name_len] = "staple_food.txt";
 char drink_filename[max_str_name_len] = "drink.txt";
-// º¯ÊıÉùÃ÷
-int input_password(char pw_input[], int wrong_time); // ÊäÈëÃÜÂë
-int check_password(char pw_input[]);                 // ÃÜÂë¼ì²â
-int admin_menu();                                    // ¹ÜÀíÔ±²Ëµ¥
-int order_check();                                   // ¶©µ¥È·ÈÏ
-int order_complete();                                // Íê³É¶©µ¥
-void income_check();                                 // ²é¿´ÓªÒµ¶î
-int add_dish();                                      // Ìí¼Ó²ËÆ·
-int del_dish();                                      // É¾³ı²ËÆ·
-int price_adjust();                                  // ¼Û¸ñµ÷Õû
+// å‡½æ•°å£°æ˜
+int input_password(char pw_input[], int wrong_time); // è¾“å…¥å¯†ç 
+int check_password(char pw_input[]);                 // å¯†ç æ£€æµ‹
+int admin_menu();                                    // ç®¡ç†å‘˜èœå•
+int order_check();                                   // è®¢å•ç¡®è®¤
+int order_complete();                                // å®Œæˆè®¢å•
+void income_check();                                 // æŸ¥çœ‹è¥ä¸šé¢
+int add_dish();                                      // æ·»åŠ èœå“
+int del_dish();                                      // åˆ é™¤èœå“
+int price_adjust();                                  // ä»·æ ¼è°ƒæ•´
 
 int admin_form()
 {
     system("cls");
-    printf("----------------------\n¡¤¹ÜÀíÔ±ÏµÍ³´ò¿ª³É¹¦!\n¡¤·µ»ØÉÏ¼¶²Ëµ¥Çë°´Esc\n----------------------\n\n");
+    printf("----------------------\nÂ·ç®¡ç†å‘˜ç³»ç»Ÿæ‰“å¼€æˆåŠŸ!\nÂ·è¿”å›ä¸Šçº§èœå•è¯·æŒ‰Esc\n----------------------\n\n");
     int choice;
     char pw_input[max_str_pw_len];
-    printf("¡¤ÇëÔÚÕâÀïÊäÈëºóÌ¨ÃÜÂë:\n");
+    printf("Â·è¯·åœ¨è¿™é‡Œè¾“å…¥åå°å¯†ç :\n");
     int wrong_time = 0;
     if (input_password(pw_input, wrong_time))
         return 0;
@@ -39,11 +39,11 @@ int admin_form()
         {
             wrong_time++;
             system("cls");
-            printf("----------------------\n¡¤¹ÜÀíÔ±ÏµÍ³´ò¿ª³É¹¦!\n¡¤·µ»ØÉÏ¼¶²Ëµ¥Çë°´Esc\n----------------------\n\n");
+            printf("----------------------\nÂ·ç®¡ç†å‘˜ç³»ç»Ÿæ‰“å¼€æˆåŠŸ!\nÂ·è¿”å›ä¸Šçº§èœå•è¯·æŒ‰Esc\n----------------------\n\n");
             if (wrong_time != 0)
-                printf("¡¤ºóÌ¨ÃÜÂëÊäÈë´íÎó£¬ÇëÖØĞÂÊäÈë:");
+                printf("Â·åå°å¯†ç è¾“å…¥é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥:");
             else
-                printf("¡¤ÇëÔÚÕâÀïÊäÈëºóÌ¨ÃÜÂë:\n");
+                printf("Â·è¯·åœ¨è¿™é‡Œè¾“å…¥åå°å¯†ç :\n");
             wrong_time = 0;
             if (input_password(pw_input, wrong_time))
                 return 0;
@@ -51,14 +51,14 @@ int admin_form()
         else
         {
             system("cls");
-            printf("----------------------\n¡¤¹ÜÀíÔ±ÏµÍ³´ò¿ª³É¹¦!\n¡¤·µ»ØÉÏ¼¶²Ëµ¥Çë°´Esc\n----------------------\n\n¡¤ÊäÈëÕıÈ·£¡»¶Ó­¹ÜÀíÔ±£¡\n");
+            printf("----------------------\nÂ·ç®¡ç†å‘˜ç³»ç»Ÿæ‰“å¼€æˆåŠŸ!\nÂ·è¿”å›ä¸Šçº§èœå•è¯·æŒ‰Esc\n----------------------\n\nÂ·è¾“å…¥æ­£ç¡®ï¼æ¬¢è¿ç®¡ç†å‘˜ï¼\n");
             for (int i = 0; i < 3; i++)
             {
                 Sleep(400);
                 printf(".");
             }
         }
-    } while (flag != 0); // strcmpÔËËã·ûÔÚÍ¬×Ö·û³¤¶È»áÊä³ö-1,0,1
+    } while (flag != 0); // strcmpè¿ç®—ç¬¦åœ¨åŒå­—ç¬¦é•¿åº¦ä¼šè¾“å‡º-1,0,1
     do
     {
         choice = admin_menu();
@@ -90,7 +90,7 @@ int admin_form()
 
 int input_password(char pw_input[], int wrong_time)
 {
-    memset(pw_input, 0, max_str_pw_len); // Çå¿Õ×Ö·û´®
+    memset(pw_input, 0, max_str_pw_len); // æ¸…ç©ºå­—ç¬¦ä¸²
     int x, y;
     x = 0;
     y = 6 + wrong_time;
@@ -101,22 +101,22 @@ int input_password(char pw_input[], int wrong_time)
     {
         ch = getch();
         if (ch <= 0)
-            getch(); // ·ÀÖ¹ÊäÈëdel¡¢·½Ïò¼üµÈ¼üÎ»ÔÚWindowsµÄÓ³Éä³ÉVK_DELETE¡¢VK_LEFTµÈĞéÄâ¼üÎ»£¬Ê¹µÃgetch()µÃµ½¸ºÊıASCIIÂë¡£
+            getch(); // é˜²æ­¢è¾“å…¥delã€æ–¹å‘é”®ç­‰é”®ä½åœ¨Windowsçš„æ˜ å°„æˆVK_DELETEã€VK_LEFTç­‰è™šæ‹Ÿé”®ä½ï¼Œä½¿å¾—getch()å¾—åˆ°è´Ÿæ•°ASCIIç ã€‚
         if (ch == 27)
         {
             gotoxy(x, y);
             system("cls");
-            printf("È·ÈÏÍË³öÇë°´y£¬»ò°´ÆäÓàÈÎÒâ¼üÁôÔÚ´ËÒ³");
+            printf("ç¡®è®¤é€€å‡ºè¯·æŒ‰yï¼Œæˆ–æŒ‰å…¶ä½™ä»»æ„é”®ç•™åœ¨æ­¤é¡µ");
             ch = getch();
             if (ch == 'y' || ch == 'Y')
-                return 1; // ·µ»Øµ½ifº¯Êı£¬Ö´ĞĞif(1)ÍË³öÃÜÂëÊäÈë½çÃæ£¬·µ»ØÉÏ¼¶²Ëµ¥
+                return 1; // è¿”å›åˆ°ifå‡½æ•°ï¼Œæ‰§è¡Œif(1)é€€å‡ºå¯†ç è¾“å…¥ç•Œé¢ï¼Œè¿”å›ä¸Šçº§èœå•
             else
-                break; // ÓÃ»§È¡ÏûÍË³ö£¬ÖØĞÂ»Øµ½ÃÜÂëÊäÈë½çÃæ
+                break; // ç”¨æˆ·å–æ¶ˆé€€å‡ºï¼Œé‡æ–°å›åˆ°å¯†ç è¾“å…¥ç•Œé¢
         }
         else if (ch == 13)
-            break; // »Ø³µ¼ü
+            break; // å›è½¦é”®
         else if (ch == 8 && x > 0)
-        { // ÍË¸ñ¼ü
+        { // é€€æ ¼é”®
             cnt--;
             x--;
             gotoxy(x, y);
@@ -129,7 +129,7 @@ int input_password(char pw_input[], int wrong_time)
             }
         }
         else if (ch >= 32 && ch <= 126)
-        { // ÆÕÍ¨×Ö·û
+        { // æ™®é€šå­—ç¬¦
             if (cnt < max_str_pw_len)
             {
                 pw_input[cnt] = ch;
@@ -139,7 +139,7 @@ int input_password(char pw_input[], int wrong_time)
             }
             else
             {
-                printf("\nÃÜÂë³¤¶È³¬³öÔ¤ÉèÄÚ´æ£¬ÇëÍË¸ñ¡£");
+                printf("\nå¯†ç é•¿åº¦è¶…å‡ºé¢„è®¾å†…å­˜ï¼Œè¯·é€€æ ¼ã€‚");
                 gotoxy(x, y);
             }
         }
@@ -157,8 +157,8 @@ int admin_menu()
 {
     system("cls");
     int choice;
-    printf("--------------------------\n¡¤ÇëÑ¡ÔñÄúµÄ²Ù×÷\n¡¤·µ»ØÉÏ¼¶²Ëµ¥Çë°´Esc\n--------------------------\n\n1.È·ÈÏ¹Ë¿Í¶©µ¥\n2.Íê³É¹Ë¿Í¶©µ¥\n3.²é¿´½ñÈÕÓªÒµ¶î\n4.Ìí¼Ó²ËÆ·\n5.É¾³ı²ËÆ·\n6.ĞŞ¸Ä¼Û¸ñ\n\nÔÚÕâÀïÊäÈë:");
-    // printf("7.·µ»ØÉÏ¼¶²Ëµ¥\n");
+    printf("--------------------------\nÂ·è¯·é€‰æ‹©æ‚¨çš„æ“ä½œ\nÂ·è¿”å›ä¸Šçº§èœå•è¯·æŒ‰Esc\n--------------------------\n\n1.ç¡®è®¤é¡¾å®¢è®¢å•\n2.å®Œæˆé¡¾å®¢è®¢å•\n3.æŸ¥çœ‹ä»Šæ—¥è¥ä¸šé¢\n4.æ·»åŠ èœå“\n5.åˆ é™¤èœå“\n6.ä¿®æ”¹ä»·æ ¼\n\nåœ¨è¿™é‡Œè¾“å…¥:");
+    // printf("7.è¿”å›ä¸Šçº§èœå•\n");
     if (choice_f('y', &choice, 1, 6))
         return 7;
     return choice;
@@ -169,12 +169,12 @@ int order_check()
     system("cls");
     int tn = 1;
     int flag = 0;
-    // ¸ù¾İ×ÀºÅ¼ìË÷ÎÄ¼ş£¬Éú³ÉÎÄ¼şÃû
+    // æ ¹æ®æ¡Œå·æ£€ç´¢æ–‡ä»¶ï¼Œç”Ÿæˆæ–‡ä»¶å
     for (tn = 1; tn <= MAX_STR_TABLE_LEN; tn++)
     {
-        char fstr[50] = {'\0'};
+        char fstr[50] = { '\0' };
         sprintf(fstr, "order//%d.txt", tn);
-        FILE *fp;
+        FILE* fp;
         fp = fopen(fstr, "r");
         if (fp == NULL)
             continue;
@@ -186,23 +186,23 @@ int order_check()
             if (flag_temp == 2)
             {
                 flag = 1;
-                printf("\n×ÀºÅ:%d ÒÑÍê³ÉÖ§¸¶£¡\nÊÇ·ñÈ·ÈÏ¶©µ¥£¿ 1.ÊÇ 2.·ñ\n", tn);
+                printf("æ¡Œå·:%d å·²å®Œæˆæ”¯ä»˜ï¼\næ˜¯å¦ç¡®è®¤è®¢å•ï¼Ÿ 1.æ˜¯ 2.å¦\n", tn);
                 int choice;
                 choice_f('n', &choice, 1, 2);
-                // Èç¹ûÈ·¶¨¶©µ¥ÔòÖÃ±êÖ¾Î»Îª 3
+                // å¦‚æœç¡®å®šè®¢å•åˆ™ç½®æ ‡å¿—ä½ä¸º 3
                 if (choice == 1)
                 {
                     fp = fopen(fstr, "r+");
                     fseek(fp, 0, SEEK_SET);
                     fprintf(fp, "%d", 3);
                     fclose(fp);
-                    printf("×ÀºÅ:%dµÄ¶©µ¥ÒÑÈ·ÈÏ³É¹¦£¡\n", tn);
+                    printf("\næ¡Œå·:%dçš„è®¢å•å·²ç¡®è®¤æˆåŠŸï¼\n", tn);
                 }
             }
         }
     }
     if (flag == 0)
-        printf("ÔİÎŞ¶©µ¥ĞèÒªÈ·ÈÏ£¡\n");
+        printf("æš‚æ— è®¢å•éœ€è¦ç¡®è®¤ï¼\n");
     my_pause();
 }
 
@@ -211,12 +211,12 @@ int order_complete()
     system("cls");
     int tn = 1;
     int flag = 0;
-    // ¸ù¾İ×ÀºÅ¼ìË÷ÎÄ¼ş£¬Éú³ÉÎÄ¼şÃû
+    // æ ¹æ®æ¡Œå·æ£€ç´¢æ–‡ä»¶ï¼Œç”Ÿæˆæ–‡ä»¶å
     for (tn = 1; tn <= MAX_STR_TABLE_LEN; tn++)
     {
-        char fstr[50] = {'\0'};
+        char fstr[50] = { '\0' };
         sprintf(fstr, "order//%d.txt", tn);
-        FILE *fp;
+        FILE* fp;
         fp = fopen(fstr, "r");
         if (fp == NULL)
             continue;
@@ -228,10 +228,10 @@ int order_complete()
             if (flag_temp == 3)
             {
                 flag = 1;
-                printf("×ÀºÅ:%d ÒÑÍê³ÉÈ·ÈÏ£¬³ö²Í½áÊøºó¿ÉÑ¡ÔñÍê³É¶©µ¥£¡\nÊÇ·ñÈ·ÈÏÍê³É¶©µ¥£¿ 1.ÊÇ 2.·ñ\n", tn);
+                printf("æ¡Œå·:%d å·²å®Œæˆç¡®è®¤ï¼Œå‡ºé¤ç»“æŸåå¯é€‰æ‹©å®Œæˆè®¢å•ï¼\næ˜¯å¦ç¡®è®¤å®Œæˆè®¢å•ï¼Ÿ 1.æ˜¯ 2.å¦\n", tn);
                 int choice;
                 choice_f('n', &choice, 1, 2);
-                // Èç¹ûÍê³É¶©µ¥ÔòÖÃ±êÖ¾Î»Îª 4
+                // å¦‚æœå®Œæˆè®¢å•åˆ™ç½®æ ‡å¿—ä½ä¸º 4
                 if (choice == 1)
                 {
                     fp = fopen(fstr, "r+");
@@ -239,19 +239,19 @@ int order_complete()
                     fprintf(fp, "%d", 4);
                     fclose(fp);
 
-                    printf("×ÀºÅ:%dµÄ¶©µ¥ÒÑÍê³É£¡\n", tn);
+                    printf("\næ¡Œå·:%dçš„è®¢å•å·²å®Œæˆï¼\n", tn);
                 }
             }
         }
     }
     if (flag == 0)
-        printf("ÔİÎŞ¶©µ¥¿ÉÒÔÍê½á£¡\n");
+        printf("æš‚æ— è®¢å•å¯ä»¥å®Œç»“ï¼\n");
     my_pause();
 }
 
 void income_check()
 {
-    // ´ò¿ªËùÓĞ¶©µ¥ÎÄ¼ş£¬¼ÆËãËùÓĞÍê½á¶©µ¥µÄÊÕÈë
+    // æ‰“å¼€æ‰€æœ‰è®¢å•æ–‡ä»¶ï¼Œè®¡ç®—æ‰€æœ‰å®Œç»“è®¢å•çš„æ”¶å…¥
     system("cls");
     int tn = 1;
     double account = 0;
@@ -259,13 +259,13 @@ void income_check()
     double account_cold_dish = 0;
     double account_staple_food = 0;
     double account_drink = 0;
-    // ¸ù¾İ×ÀºÅ¼ìË÷ÎÄ¼ş£¬Éú³ÉÎÄ¼şÃû
+    // æ ¹æ®æ¡Œå·æ£€ç´¢æ–‡ä»¶ï¼Œç”Ÿæˆæ–‡ä»¶å
     for (tn = 1; tn <= MAX_STR_TABLE_LEN; tn++)
     {
         char str[5];
-        char fstr[50] = {'\0'};
+        char fstr[50] = { '\0' };
         sprintf(fstr, "order//%d.txt", tn);
-        FILE *fp;
+        FILE* fp;
         fp = fopen(fstr, "r");
         if (fp == NULL)
             continue;
@@ -275,15 +275,14 @@ void income_check()
             fscanf(fp, "%d", &flag_temp);
             if (flag_temp == 4)
             {
-                // ¶ÁÈ¡¸ÃÎÄ¼şµÄĞÅÏ¢£¬²¢¼ÆËãÓªÒµ¶î
+                // è¯»å–è¯¥æ–‡ä»¶çš„ä¿¡æ¯ï¼Œå¹¶è®¡ç®—è¥ä¸šé¢
                 int no;
                 int type;
                 char dish_name[max_str_name_len];
                 int nums;
                 double price;
-                while (!feof(fp))
+                while (fscanf(fp, "%d %s %lf %d %d", &no, dish_name, &price, &type, &nums) == 5)
                 {
-                    fscanf(fp, "%d %s %lf %d %d", &no, dish_name, &price, &type, &nums);
                     account += price * nums;
                     switch (type)
                     {
@@ -299,42 +298,32 @@ void income_check()
                     case 4:
                         account_drink += price * nums;
                         break;
+                    default:
+                        break;
                     }
                 }
             }
         }
         fclose(fp);
     }
-    printf("×ÜÊÕÈë:%.2lf\nÈÈ²ËÊÕÈë:%.2lf\nÁ¹²ËÊÕÈë:%.2lf\nÖ÷Ê³ÊÕÈë:%.2lf\nÒûÆ·ÊÕÈë:%.2lf\n", account, account_hot_dish, account_cold_dish, account_staple_food, account_drink);
+    printf("æ€»æ”¶å…¥:%.2lf\nçƒ­èœæ”¶å…¥:%.2lf\nå‡‰èœæ”¶å…¥:%.2lf\nä¸»é£Ÿæ”¶å…¥:%.2lf\né¥®å“æ”¶å…¥:%.2lf\n", account, account_hot_dish, account_cold_dish, account_staple_food, account_drink);
     my_pause();
 }
 
 int add_dish()
 {
-    FILE *fp;
+    FILE* fp;
     int choice;
     do
     {
         dish_menu new_dish;
         system("cls");
-        printf("-------------------------\n¡¤Ìí¼Ó²ËÆ·½çÃæ´ò¿ª³É¹¦!\n¡¤·µ»ØÉÏ¼¶²Ëµ¥Çë°´Esc\n-------------------------\n\n");
-        printf("\nÇëÊäÈë²ËÆ·±àºÅ£º");
-        if (my_num_input('y', 2, NULL, &new_dish.no))
-            return 0;
-        printf("\nÇëÊäÈë²ËÆ·Ãû³Æ£º");
-        int aa, bb;
-        getxy(&aa, &bb);
-        printf("                   ");
-        gotoxy(aa, bb);
-        if (my_str_input('y', new_dish.dish_name))
-            return 0;
-        printf("\nÇëÊäÈë²ËÆ·¼Û¸ñ£º");
-        if (my_num_input('y', MAX_STR_LEN, NULL, &new_dish.dish_price))
-            return 0;
-        printf("\nÇëÊäÈë²ËÆ·ÖÖÀà£º");
+        printf("-------------------------\nÂ·æ·»åŠ èœå“ç•Œé¢æ‰“å¼€æˆåŠŸ!\nÂ·è¿”å›ä¸Šçº§èœå•è¯·æŒ‰Esc\n-------------------------\n");
+        printf("\nè¯·è¾“å…¥èœå“ç§ç±»ï¼š");
         if (my_num_input('y', 1, NULL, &new_dish.type))
             return 0;
-        char filename[max_str_name_len] = {'\0'};
+
+        char filename[max_str_name_len] = { '\0' };
         switch (new_dish.type)
         {
         case 1:
@@ -350,15 +339,55 @@ int add_dish()
             strcpy(filename, drink_filename);
             break;
         }
+
+        printf("\nè¯·è¾“å…¥èœå“ç¼–å·ï¼š");
+        FILE* chk_fp;
+        int tmp_flag = 0;
+
+    chk_no: // æ£€æŸ¥èœå“ç¼–å·æ˜¯å¦å·²å­˜åœ¨
+        if (my_num_input('y', 2, NULL, &new_dish.no))
+            return 0;
+        int a, a0, b, b0;
+        getxy(&a0, &b0);
+        chk_fp = fopen(filename, "r");
+        dish_menu chk_dish;
+        int no_exist = 1;
+        while (fscanf(chk_fp, "%d %*s %*lf %*d", &chk_dish.no) == 1)
+        {
+            if (new_dish.no == chk_dish.no)
+            {
+                no_exist = 0;
+                break;
+            }
+        }
+        if (!no_exist)
+        {
+            if (tmp_flag == 0)
+            {
+                gotoxy(a0, b0);
+                printf("\nèœå“ç¼–å·å·²å­˜åœ¨ï¼Œè¯·é‡æ–°è¾“å…¥ï¼š");
+                getxy(&a, &b);
+                tmp_flag = 1;
+            }
+            gotoxy(a, b);
+            for (int i = 0; i < MAX_STR_LEN; i++)
+                printf(" ");
+            gotoxy(a, b);
+            goto chk_no;
+        }
+
+        printf("\nè¯·è¾“å…¥èœå“åç§°ï¼š");
+        if (my_str_input('y', new_dish.dish_name))
+            return 0;
+        printf("\nè¯·è¾“å…¥èœå“ä»·æ ¼ï¼š");
+        if (my_num_input('y', MAX_NUM_LEN, &new_dish.dish_price, NULL))
+            return 0;
+
         fp = fopen(filename, "a");
-        fprintf(fp, "%d\n", new_dish.no);
-        fprintf(fp, "%s\n", new_dish.dish_name);
-        fprintf(fp, "%lf\n", new_dish.dish_price);
-        fprintf(fp, "%d\n", new_dish.type);
+
+        fprintf(fp, "%d\n%s\n%lf\n%d\n", new_dish.no, new_dish.dish_name, new_dish.dish_price, new_dish.type);
         fclose(fp);
-        printf("\n\nÊÇ·ñ¼ÌĞøÌí¼Ó²ËÆ·£º\n");
-        printf("1.ÊÇ\n");
-        printf("2.·ñ\n");
+        printf("\n\næ˜¯å¦ç»§ç»­æ·»åŠ èœå“ï¼š\n1.æ˜¯\n2.å¦\n");
         if (choice_f('y', &choice, 1, 2))
             return 0;
     } while (choice != 2);
@@ -371,12 +400,12 @@ int del_dish()
     do
     {
         system("cls");
-        printf("--------------------------\n¡¤ÇëÑ¡ÔñÄúµÄ²Ù×÷\n¡¤·µ»ØÉÏ¼¶²Ëµ¥Çë°´Esc\n--------------------------\n\n1.ÈÈ²Ë\n2.Á¹²Ë\n3.Ö÷Ê³\n4.ÒûÆ·\n\nÇëÑ¡ÔñÉ¾³ı²ËÆ·µÄÀàĞÍ:");
+        printf("--------------------------\nÂ·è¯·é€‰æ‹©æ‚¨çš„æ“ä½œ\nÂ·è¿”å›ä¸Šçº§èœå•è¯·æŒ‰Esc\n--------------------------\n\n1.çƒ­èœ\n2.å‡‰èœ\n3.ä¸»é£Ÿ\n4.é¥®å“\n\nè¯·é€‰æ‹©åˆ é™¤èœå“çš„ç±»å‹:");
         int type;
         if (choice_f('y', &type, 1, 4))
             return 0;
-        // ÒÀ¾İ²ËÆ·ÀàĞÍ´ò¿ª¶ÔÓ¦ÎÄ¼ş
-        char filename[max_str_name_len] = {'\0'};
+        // ä¾æ®èœå“ç±»å‹æ‰“å¼€å¯¹åº”æ–‡ä»¶
+        char filename[max_str_name_len] = { '\0' };
         switch (type)
         {
         case 1:
@@ -392,10 +421,11 @@ int del_dish()
             strcpy(filename, drink_filename);
             break;
         }
-        FILE *fp;
+        FILE* fp;
         dish_menu dm[MAX_LENGTH];
         memset(dm, 0, sizeof(dm));
         dish_menu dm_new[MAX_LENGTH];
+        memset(dm_new, 0, sizeof(dm_new));
         int cnt = 0;
         fp = fopen(filename, "r");
         while (!feof(fp))
@@ -410,10 +440,10 @@ int del_dish()
         int del_no;
         int a, a0, b, b0;
         getxy(&a0, &b0);
-        printf("\nÇëÊäÈëĞèÒªÉ¾³ıµÄ²ËÆ·±àºÅ:");
+        printf("\nè¯·è¾“å…¥éœ€è¦åˆ é™¤çš„èœå“ç¼–å·:");
         if (my_num_input('y', 2, NULL, &del_no))
             return 0;
-        // ¼ìË÷ÎÄ¼ş ¸Ã²ËÆ·ÊÇ·ñ´æÔÚ
+        // æ£€ç´¢æ–‡ä»¶ è¯¥èœå“æ˜¯å¦å­˜åœ¨
         int flag = 0;
         do
         {
@@ -428,7 +458,7 @@ int del_dish()
             if (flag == 0)
             {
                 gotoxy(a0, b0);
-                printf("\nÃ»ÓĞ¸Ã²ËÆ·!                            \nÇëÖØĞÂÊäÈë : ");
+                printf("\næ²¡æœ‰è¯¥èœå“!                            \nè¯·é‡æ–°è¾“å…¥ : ");
                 getxy(&a, &b);
                 if (my_num_input('y', 2, NULL, &del_no))
                     return 0;
@@ -438,11 +468,11 @@ int del_dish()
                 gotoxy(a, b);
             }
         } while (flag == 0);
-        printf("\nÊÇ·ñÈ·ÈÏÉ¾³ı<%s>²ËÆ·£¿1.ÊÇ 2.·ñ\n", dm[pos].dish_name);
+        printf("\næ˜¯å¦ç¡®è®¤åˆ é™¤<%s>èœå“ï¼Ÿ1.æ˜¯ 2.å¦\n", dm[pos].dish_name);
         int del_choice;
         if (choice_f('y', &del_choice, 1, 2))
             return 0;
-        // É¾³ı²ËÆ·
+        // åˆ é™¤èœå“
         if (del_choice == 1)
         {
             int i;
@@ -450,7 +480,7 @@ int del_dish()
             for (i = 0; i < cnt - 1; i++)
             {
                 if (i == pos)
-                    continue; // Ìø¹ı¸Ã²ËÆ·
+                    continue; // è·³è¿‡è¯¥èœå“
                 else
                 {
                     dm_new[j].no = dm[i].no;
@@ -460,7 +490,7 @@ int del_dish()
                     j++;
                 }
             }
-            // ½« dm_new ÖØĞÂ¸²¸ÇÂ¼Èëµ½²Ëµ¥ÎÄ¼şÖĞ
+            // å°† dm_new é‡æ–°è¦†ç›–å½•å…¥åˆ°èœå•æ–‡ä»¶ä¸­
             fp = fopen(filename, "w");
             for (i = 0; i < cnt - 2; i++)
             {
@@ -470,9 +500,9 @@ int del_dish()
                 fprintf(fp, "%d\n", dm_new[i].type);
             }
             fclose(fp);
-            printf("É¾³ı³É¹¦£¡\n");
+            printf("åˆ é™¤æˆåŠŸï¼\n");
         }
-        printf("\nÊÇ·ñ¼ÌĞøÉ¾³ı£¿1.ÊÇ£¬2·ñ£¿\n");
+        printf("\næ˜¯å¦ç»§ç»­åˆ é™¤ï¼Ÿ1.æ˜¯ï¼Œ2å¦ï¼Ÿ\n");
         if (choice_f('y', &choice, 1, 2))
             return 0;
     } while (choice != 2);
@@ -485,11 +515,11 @@ int price_adjust()
     do
     {
         system("cls");
-        printf("--------------------------\n¡¤ÇëÑ¡ÔñÄúµÄ²Ù×÷\n¡¤·µ»ØÉÏ¼¶²Ëµ¥Çë°´Esc\n--------------------------\n\n1.ÈÈ²Ë\n2.Á¹²Ë\n3.Ö÷Ê³\n4.ÒûÆ·\n\nÇëÑ¡ÔñĞŞ¸Ä²ËÆ·µÄÀàĞÍ:");
+        printf("--------------------------\nÂ·è¯·é€‰æ‹©æ‚¨çš„æ“ä½œ\nÂ·è¿”å›ä¸Šçº§èœå•è¯·æŒ‰Esc\n--------------------------\n\n1.çƒ­èœ\n2.å‡‰èœ\n3.ä¸»é£Ÿ\n4.é¥®å“\n\nè¯·é€‰æ‹©ä¿®æ”¹èœå“çš„ç±»å‹:");
         int type;
         if (choice_f('y', &type, 1, 4))
             return 0;
-        // ÒÀ¾İ²ËÆ·ÀàĞÍ´ò¿ª¶ÔÓ¦ÎÄ¼ş
+        // ä¾æ®èœå“ç±»å‹æ‰“å¼€å¯¹åº”æ–‡ä»¶
         char filename[max_str_name_len];
         switch (type)
         {
@@ -506,7 +536,7 @@ int price_adjust()
             strcpy(filename, drink_filename);
             break;
         }
-        FILE *fp;
+        FILE* fp;
         dish_menu dm[MAX_LENGTH];
         memset(dm, 0, sizeof(dm));
         int cnt = 0;
@@ -520,13 +550,13 @@ int price_adjust()
             cnt++;
         }
         fclose(fp);
-        printf("\nÇëÊäÈëĞèÒªĞŞ¸Ä¼Û¸ñµÄ²ËÆ·±àºÅ£º");
+        printf("\nè¯·è¾“å…¥éœ€è¦ä¿®æ”¹ä»·æ ¼çš„èœå“ç¼–å·ï¼š");
         int adjust_no;
         if (my_num_input('y', 2, NULL, &adjust_no))
             return 0;
         int a, a0, b, b0, tmp_flag = 0;
         getxy(&a0, &b0);
-        // ¼ìË÷ÎÄ¼ş ¸Ã²ËÆ·ÊÇ·ñ´æÔÚ
+        // æ£€ç´¢æ–‡ä»¶ è¯¥èœå“æ˜¯å¦å­˜åœ¨
         int flag = 0;
         while (flag == 0)
         {
@@ -543,7 +573,7 @@ int price_adjust()
                 if (tmp_flag == 0)
                 {
                     gotoxy(a0, b0);
-                    printf("\nÃ»ÓĞ¸Ã²ËÆ·!                            \nÇëÖØĞÂÊäÈë : ");
+                    printf("\næ²¡æœ‰è¯¥èœå“!                            \nè¯·é‡æ–°è¾“å…¥ : ");
                     getxy(&a, &b);
                     tmp_flag = 1;
                 }
@@ -555,22 +585,22 @@ int price_adjust()
                     return 0;
             }
         }
-        // ĞŞ¸Ä²ËÆ·
-        printf("\nÊÇ·ñÈ·ÈÏĞŞ¸Ä<%s>²ËÆ·µÄ¼Û¸ñ£¿1.ÊÇ 2.·ñ\n", dm[pos].dish_name);
+        // ä¿®æ”¹èœå“
+        printf("\næ˜¯å¦ç¡®è®¤ä¿®æ”¹<%s>èœå“çš„ä»·æ ¼ï¼Ÿ1.æ˜¯ 2.å¦\n", dm[pos].dish_name);
         int adjust_choice;
         if (choice_f('y', &adjust_choice, 1, 6))
             break;
         if (adjust_choice == 1)
         {
-            printf("\nÇëÊäÈëĞŞ¸Ä²ËÆ·ºóµÄ¼Û¸ñ£º");
+            printf("\nè¯·è¾“å…¥ä¿®æ”¹èœå“åçš„ä»·æ ¼ï¼š");
             double re_price;
             my_num_input('n', MAX_NUM_LEN, &re_price, NULL);
             int i;
             int j = 0;
             for (i = 0; i < cnt - 1; i++)
                 if (i == pos)
-                    dm[i].dish_price = re_price; // ĞŞ¸Ä¼Û¸ñ
-            // ½« dmÖØĞÂ¸²¸ÇÂ¼Èëµ½²Ëµ¥ÎÄ¼şÖĞ
+                    dm[i].dish_price = re_price; // ä¿®æ”¹ä»·æ ¼
+            // å°† dmé‡æ–°è¦†ç›–å½•å…¥åˆ°èœå•æ–‡ä»¶ä¸­
             fp = fopen(filename, "w");
             for (i = 0; i < cnt - 1; i++)
             {
@@ -580,9 +610,9 @@ int price_adjust()
                 fprintf(fp, "%d\n", dm[i].type);
             }
             fclose(fp);
-            printf("\nĞŞ¸Ä³É¹¦£¡\n");
+            printf("\nä¿®æ”¹æˆåŠŸï¼\n");
         }
-        printf("\nÊÇ·ñ¼ÌĞøĞŞ¸Ä£¿1.ÊÇ£¬2·ñ£¿\n");
+        printf("\næ˜¯å¦ç»§ç»­ä¿®æ”¹ï¼Ÿ1.æ˜¯ï¼Œ2å¦ï¼Ÿ\n");
         if (choice_f('y', &choice, 1, 2))
             return 0;
     } while (choice != 2);
