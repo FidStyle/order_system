@@ -1,28 +1,28 @@
 #include "tools.h"
-// ±äÁ¿ÉùÃ÷
-int table_no; // ²ÍÌ¨ºÅ
+// å˜é‡å£°æ˜
+int table_no; // é¤å°å·
 extern char hot_dish_filename[max_str_name_len];
 extern char cold_dish_filename[max_str_name_len];
 extern char staple_food_filename[max_str_name_len];
 extern char drink_filename[max_str_name_len];
-// º¯ÊıÉùÃ÷
-int customer_menu();                     // ²Ëµ¥½çÃæ
-void all_dishmenu(char *fnm);            // ´ò¿ª²Ëµ¥
-void over_view();                        // ×ÜÀÀ
-int check_bill();                        // Ö§¸¶¶©µ¥
-void order_status();                     // ¶©µ¥×´Ì¬
-void page_controller(dish_menu *, int);  // ²Ëµ¥·ÖÒ³
-int display_menu(dish_menu *, int, int); // ÏÔÊ¾²Ëµ¥ĞÅÏ¢
-int create_order(dish_menu *, int, int); // Éú³É¶©µ¥
+// å‡½æ•°å£°æ˜
+int customer_menu();                     // èœå•ç•Œé¢
+void all_dishmenu(char* fnm);            // æ‰“å¼€èœå•
+void over_view();                        // æ€»è§ˆ
+int check_bill();                        // æ”¯ä»˜è®¢å•
+void order_status();                     // è®¢å•çŠ¶æ€
+void page_controller(dish_menu*, int);  // èœå•åˆ†é¡µ
+int display_menu(dish_menu*, int, int); // æ˜¾ç¤ºèœå•ä¿¡æ¯
+int create_order(dish_menu*, int, int); // ç”Ÿæˆè®¢å•
 
 int customer_form()
 {
     system("cls");
-    printf("----------------------\n¡¤¹Ë¿ÍÏµÍ³´ò¿ª³É¹¦!\n¡¤·µ»ØÉÏ¼¶²Ëµ¥Çë°´Esc\n----------------------\n\nÇëÊäÈëÄúµÄ²ÍÌ¨ºÅ£º");
-    int choice; // ÊäÈë²ÍÌ¨ºÅ
+    printf("----------------------\nÂ·é¡¾å®¢ç³»ç»Ÿæ‰“å¼€æˆåŠŸ!\nÂ·è¿”å›ä¸Šçº§èœå•è¯·æŒ‰Esc\n----------------------\n\nè¯·è¾“å…¥æ‚¨çš„é¤å°å·ï¼š");
+    int choice; // è¾“å…¥é¤å°å·
     if (choice_f('y', &table_no, 1, 999))
         return 0;
-start: // ´ò¿ª²Ëµ¥½çÃæ
+    // æ‰“å¼€èœå•ç•Œé¢
     do
     {
         choice = customer_menu();
@@ -49,75 +49,75 @@ start: // ´ò¿ª²Ëµ¥½çÃæ
         case 7:
             order_status();
             break;
-        default:
+        case 8:
             break;
+        default:
+            continue;
         }
     } while (choice > 8 || choice < 1);
-    if (choice != 8)
-        goto start;
 }
 
 int customer_menu()
 {
     system("cls");
     int choice;
-    printf("--------------------------\n¡¤²ÍÌ¨£º%d ÇëÑ¡ÔñÄúµÄ²Ù×÷\n¡¤·µ»ØÉÏ¼¶²Ëµ¥Çë°´Esc\n--------------------------\n\n1.ÈÈ²Ë\n2.Á¹²Ë\n3.Ö÷Ê³\n4.ÒûÆ·\n5.×ÜÀÀ\n6.½áÕË\n7.¶©µ¥×´Ì¬\n\nÔÚÕâÀïÊäÈë:", table_no);
-    // printf("8.ÍË³ö\n");
+    printf("--------------------------\nÂ·é¤å°ï¼š%d è¯·é€‰æ‹©æ‚¨çš„æ“ä½œ\nÂ·è¿”å›ä¸Šçº§èœå•è¯·æŒ‰Esc\n--------------------------\n\n1.çƒ­èœ\n2.å‡‰èœ\n3.ä¸»é£Ÿ\n4.é¥®å“\n5.æ€»è§ˆ\n6.ç»“è´¦\n7.è®¢å•çŠ¶æ€\n\nåœ¨è¿™é‡Œè¾“å…¥:", table_no);
+    // printf("8.é€€å‡º\n");
     if (choice_f('y', &choice, 1, 7))
         return 8;
     return choice;
 }
 
-void all_dishmenu(char *fnm)
+void all_dishmenu(char* fnm)
 {
-    dish_menu all_dishmenu[MAX_LENGTH]; // ²ÉÓÃ½á¹¹ÌåÊı×é±£´æ¶ÁÈ¡µ½µÄ²Ëµ¥Æ·ĞÅÏ¢
-    int cnt = 0;                        // ÉèÖÃÒ»¸ö¼ÆÊıÆ÷±£´æ²ËÆ·Êµ¼ÊÊıÁ¿
-    // ´ò¿ª cold_dish.txt ²¢¶ÁÈ¡Êı¾İ½øĞĞÏÔÊ¾
-    FILE *fp;
+    dish_menu all_dishmenu[MAX_LENGTH]; // é‡‡ç”¨ç»“æ„ä½“æ•°ç»„ä¿å­˜è¯»å–åˆ°çš„èœå•å“ä¿¡æ¯
+    int cnt = 0;                        // è®¾ç½®ä¸€ä¸ªè®¡æ•°å™¨ä¿å­˜èœå“å®é™…æ•°é‡
+    // æ‰“å¼€ cold_dish.txt å¹¶è¯»å–æ•°æ®è¿›è¡Œæ˜¾ç¤º
+    FILE* fp;
     char filename[20];
     strcpy(filename, fnm);
     fp = fopen(filename, "r");
     while (fscanf(fp, "%d %s %lf %d", &all_dishmenu[cnt].no,
-                  all_dishmenu[cnt].dish_name, &all_dishmenu[cnt].dish_price,
-                  &all_dishmenu[cnt].type) == 4)
+        all_dishmenu[cnt].dish_name, &all_dishmenu[cnt].dish_price,
+        &all_dishmenu[cnt].type) == 4)
     {
         cnt++;
     }
     fclose(fp);
-    page_controller(all_dishmenu, cnt); // ²ÉÓÃ·ÖÒ³¿ØÖÆÏÔÊ¾²Ëµ¥²¢Ö´ĞĞµã²Ë²Ù×÷
+    page_controller(all_dishmenu, cnt); // é‡‡ç”¨åˆ†é¡µæ§åˆ¶æ˜¾ç¤ºèœå•å¹¶æ‰§è¡Œç‚¹èœæ“ä½œ
 }
 
 void over_view()
 {
     system("cls");
     int cnt = 0;
-    dish_order my_order[MAX_LENGTH]; // ¸ù¾İ×ÀºÅÉú³É¶©µ¥ÎÄ¼şÃû
-    char fstr[50] = {'\0'};
+    dish_order my_order[MAX_LENGTH]; // æ ¹æ®æ¡Œå·ç”Ÿæˆè®¢å•æ–‡ä»¶å
+    char fstr[50] = { '\0' };
     sprintf(fstr, "order//%d.txt", table_no);
-    // ÅĞ¶ÏÊÇ·ñ´æÔÚ¸ÃÎÄ¼ş£¬Èô²»´æÔÚ£¬Ôò¸Ã¶©µ¥²»´æÔÚ
-    FILE *fp;
+    // åˆ¤æ–­æ˜¯å¦å­˜åœ¨è¯¥æ–‡ä»¶ï¼Œè‹¥ä¸å­˜åœ¨ï¼Œåˆ™è¯¥è®¢å•ä¸å­˜åœ¨
+    FILE* fp;
     fp = fopen(fstr, "r");
     if (fp == NULL)
     {
-        printf("Äú»¹Ã»ÓĞÏÂµ¥£¡\n");
+        printf("æ‚¨è¿˜æ²¡æœ‰ä¸‹å•ï¼\n");
         my_pause();
         return 0;
     }
     else
-    {               // ´ÓÎÄ¼şÖĞ»ñÈ¡¶©µ¥ÄÚÈİ
-        int flag_0; // ÌáÈ¡±êÖ¾Î»£¬·ÀÖ¹Îó¶Á
+    {               // ä»æ–‡ä»¶ä¸­è·å–è®¢å•å†…å®¹
+        int flag_0; // æå–æ ‡å¿—ä½ï¼Œé˜²æ­¢è¯¯è¯»
         fscanf(fp, "%d", &flag_0);
-        // ¶Á³öÎÄ¼şĞÅÏ¢
+        // è¯»å‡ºæ–‡ä»¶ä¿¡æ¯
         while (fscanf(fp, "%d %s %lf %d %d", &my_order[cnt].no,
-                      my_order[cnt].dish_name, &my_order[cnt].dish_price,
-                      &my_order[cnt].type, &my_order[cnt].nums) == 5)
+            my_order[cnt].dish_name, &my_order[cnt].dish_price,
+            &my_order[cnt].type, &my_order[cnt].nums) == 5)
         {
             cnt++;
         }
     }
     fclose(fp);
-    // ¶©µ¥ĞÅÏ¢¶ÁÈ¡½áÊøºóÏÔÊ¾
-    printf("ĞòºÅ ²ËÆ·±àºÅ     ²ËÆ·Ãû³Æ       µ¥¼Û   ÊıÁ¿     Ğ¡¼Æ\n");
+    // è®¢å•ä¿¡æ¯è¯»å–ç»“æŸåæ˜¾ç¤º
+    printf("åºå· èœå“ç¼–å·     èœå“åç§°       å•ä»·   æ•°é‡     å°è®¡\n");
     for (int i = 0; i < cnt; i++)
         printf("%d\t %d\t  %s\t %.2lf\t %d\t %.2lf\n", i + 1, my_order[i].no, my_order[i].dish_name, my_order[i].dish_price, my_order[i].nums, my_order[i].dish_price * my_order[i].nums);
     my_pause();
@@ -128,54 +128,54 @@ int check_bill()
     system("cls");
     double account = 0;
     int cnt = 0;
-    dish_order my_order[MAX_LENGTH]; // ¸ù¾İ×ÀºÅÉú³É¶©µ¥ÎÄ¼şÃû
-    char fstr[50] = {'\0'};
+    dish_order my_order[MAX_LENGTH]; // æ ¹æ®æ¡Œå·ç”Ÿæˆè®¢å•æ–‡ä»¶å
+    char fstr[50] = { '\0' };
     sprintf(fstr, "order//%d.txt", table_no);
-    // ÅĞ¶ÏÊÇ·ñ´æÔÚ¸ÃÎÄ¼ş£¬Èô²»´æÔÚ£¬Ôò¸Ã¶©µ¥²»´æÔÚ
-    FILE *fp;
+    // åˆ¤æ–­æ˜¯å¦å­˜åœ¨è¯¥æ–‡ä»¶ï¼Œè‹¥ä¸å­˜åœ¨ï¼Œåˆ™è¯¥è®¢å•ä¸å­˜åœ¨
+    FILE* fp;
     fp = fopen(fstr, "r");
     if (fp == NULL)
     {
-        printf("Äú»¹Ã»ÓĞÏÂµ¥£¡\n");
+        printf("æ‚¨è¿˜æ²¡æœ‰ä¸‹å•ï¼\n");
         my_pause();
         return 0;
     }
     else
     {
-        int flag_0; // ´ÓÎÄ¼şÖĞ»ñÈ¡¶©µ¥ÄÚÈİ, ÌáÈ¡±êÖ¾Î»£¬·ÀÖ¹Îó¶Á
+        int flag_0; // ä»æ–‡ä»¶ä¸­è·å–è®¢å•å†…å®¹, æå–æ ‡å¿—ä½ï¼Œé˜²æ­¢è¯¯è¯»
         fscanf(fp, "%d", &flag_0);
         if (flag_0 != 1)
         {
-            printf("ÄúÒÑÍê³ÉÖ§¸¶£¬ÇëÉÔºòÎªÄúÉÏ²Í\n");
+            printf("æ‚¨å·²å®Œæˆæ”¯ä»˜ï¼Œè¯·ç¨å€™ä¸ºæ‚¨ä¸Šé¤\n");
             my_pause();
             return 0;
         }
-        // ¶Á³öÎÄ¼şĞÅÏ¢
+        // è¯»å‡ºæ–‡ä»¶ä¿¡æ¯
         while (fscanf(fp, "%d %s %lf %d %d", &my_order[cnt].no,
-                      my_order[cnt].dish_name, &my_order[cnt].dish_price,
-                      &my_order[cnt].type, &my_order[cnt].nums) == 5)
+            my_order[cnt].dish_name, &my_order[cnt].dish_price,
+            &my_order[cnt].type, &my_order[cnt].nums) == 5)
         {
             account += my_order[cnt].dish_price * my_order[cnt].nums;
             cnt++;
         }
     }
     fclose(fp);
-    printf("---------------------\n¡¤·µ»ØÉÏ¼¶²Ëµ¥Çë°´Esc\n¡¤ÄúĞèÒªÖ§¸¶£º%.2lfÔª\n---------------------\n¡¤ÇëÖ§¸¶:", account);
+    printf("---------------------\nÂ·è¿”å›ä¸Šçº§èœå•è¯·æŒ‰Esc\nÂ·æ‚¨éœ€è¦æ”¯ä»˜ï¼š%.2lfå…ƒ\n---------------------\nÂ·è¯·æ”¯ä»˜:", account);
     double pay;
     if (my_num_input('y', MAX_STR_LEN, &pay, NULL))
         return 0;
     printf("\n");
     while (pay < account)
     {
-        printf("¿Í¹Ù£¬Ç®»¹²»¹»£¡\n¿Í¹ÙÔÙ¸øµã£º");
+        printf("å®¢å®˜ï¼Œé’±è¿˜ä¸å¤Ÿï¼\nå®¢å®˜å†ç»™ç‚¹ï¼š");
         if (my_num_input('y', MAX_STR_LEN, &pay, NULL))
             return 0;
     }
     if (pay > account)
-        printf("\n¿Í¹Ù´óÆø£¬ÕÒÄú%.2lfÔª\n", pay - account);
-    printf("¿Í¹ÙÇëÉÔµÈ£¬Ğ¡µÄÕâ¾ÍÍ¨ÖªÀÏ°å¸øÄúÉÏ²Ë\n");
+        printf("\nå®¢å®˜å¤§æ°”ï¼Œæ‰¾æ‚¨%.2lfå…ƒ\n", pay - account);
+    printf("å®¢å®˜è¯·ç¨ç­‰ï¼Œå°çš„è¿™å°±é€šçŸ¥è€æ¿ç»™æ‚¨ä¸Šèœ\n");
     fp = fopen(fstr, "w");
-    fprintf(fp, "%d\n", 2); // ÉèÖÃ±êÖ¾Î»Îª2£¬ÎªÖ§¸¶Íê³É£¬ÖØĞÂÂ¼ÈëÎÄ¼ş
+    fprintf(fp, "%d\n", 2); // è®¾ç½®æ ‡å¿—ä½ä¸º2ï¼Œä¸ºæ”¯ä»˜å®Œæˆï¼Œé‡æ–°å½•å…¥æ–‡ä»¶
     for (int i = 0; i < cnt; i++)
         fprintf(fp, "%d %s %lf %d %d\n", my_order[i].no, my_order[i].dish_name, my_order[i].dish_price, my_order[i].type, my_order[i].nums);
     fclose(fp);
@@ -185,14 +185,14 @@ int check_bill()
 void order_status()
 {
     system("cls");
-    char fstr[50] = {'\0'};
-    sprintf(fstr, "order//%d.txt", table_no); // ¸ù¾İ×ÀºÅÉú³É¶©µ¥ÎÄ¼şÃû
-    // ÅĞ¶ÏÊÇ·ñ´æÔÚ¸ÃÎÄ¼ş£¬Èô²»´æÔÚ£¬Ôò¸Ã¶©µ¥²»´æÔÚ
-    FILE *fp;
+    char fstr[50] = { '\0' };
+    sprintf(fstr, "order//%d.txt", table_no); // æ ¹æ®æ¡Œå·ç”Ÿæˆè®¢å•æ–‡ä»¶å
+    // åˆ¤æ–­æ˜¯å¦å­˜åœ¨è¯¥æ–‡ä»¶ï¼Œè‹¥ä¸å­˜åœ¨ï¼Œåˆ™è¯¥è®¢å•ä¸å­˜åœ¨
+    FILE* fp;
     fp = fopen(fstr, "r");
     if (fp == NULL)
     {
-        printf("Äú»¹Ã»ÓĞÏÂµ¥£¡\n");
+        printf("æ‚¨è¿˜æ²¡æœ‰ä¸‹å•ï¼\n");
         my_pause();
         return 0;
     }
@@ -202,16 +202,16 @@ void order_status()
     switch (flag_0)
     {
     case 1:
-        printf("ÄúÒÑµã²Ë£¬¿ÉÒÔÒÆ²½È¥Ö§¸¶Ó´£¡\n");
+        printf("æ‚¨å·²ç‚¹èœï¼Œå¯ä»¥ç§»æ­¥å»æ”¯ä»˜å“Ÿï¼\n");
         break;
     case 2:
-        printf("ÄúÒÑÖ§¸¶Íê³É£¬ÀÏ°å´ó´óÕıÔÚÈ·ÈÏÖĞ£¡\n");
+        printf("æ‚¨å·²æ”¯ä»˜å®Œæˆï¼Œè€æ¿å¤§å¤§æ­£åœ¨ç¡®è®¤ä¸­ï¼\n");
         break;
     case 3:
-        printf("ÕıÔÚÎªÄú³ö²Í£¬ÉÔµÈ£¡\n");
+        printf("æ­£åœ¨ä¸ºæ‚¨å‡ºé¤ï¼Œç¨ç­‰ï¼\n");
         break;
     case 4:
-        printf("×£ÄúÓÃ²ÍÓä¿ì£¬»¶Ó­ÏÂ´Î¹âÁÙ£¡\n");
+        printf("ç¥æ‚¨ç”¨é¤æ„‰å¿«ï¼Œæ¬¢è¿ä¸‹æ¬¡å…‰ä¸´ï¼\n");
         break;
     default:
         break;
@@ -219,11 +219,11 @@ void order_status()
     my_pause();
 }
 
-int create_order(dish_menu *dm, int mode, int count)
+int create_order(dish_menu* dm, int mode, int count)
 {
     int cnt = 0;
     dish_order new_order[MAX_LENGTH];
-    // ¸ù¾İmode´ò¿ªÎÄ¼ş
+    // æ ¹æ®modeæ‰“å¼€æ–‡ä»¶
     char filename[20];
     switch (mode)
     {
@@ -240,17 +240,17 @@ int create_order(dish_menu *dm, int mode, int count)
         strcpy(filename, drink_filename);
         break;
     }
-    FILE *fp;
+    FILE* fp;
     fp = fopen(filename, "r");
     int choice;
     int temp_no;
     int temp_num;
     do
     {
-        printf("\nÇëÊäÈë²ËÆ·±àºÅ£º");
+        printf("\nè¯·è¾“å…¥èœå“ç¼–å·ï¼š");
         if (my_num_input('y', MAX_STR_LEN, NULL, &temp_no))
             return 0;
-        // ¼ì²â²ËÆ·±àºÅÊÇ·ñ´æÔÚ
+        // æ£€æµ‹èœå“ç¼–å·æ˜¯å¦å­˜åœ¨
         int flag = 0;
         do
         {
@@ -270,27 +270,27 @@ int create_order(dish_menu *dm, int mode, int count)
 
             if (flag == 0)
             {
-                printf("\nÊäÈëµÄ²ËÆ·±àºÅ²»´æÔÚ£¬ÇëÊäÈëÕıÈ·µÄ²ËÆ·±àºÅ£º");
+                printf("\nè¾“å…¥çš„èœå“ç¼–å·ä¸å­˜åœ¨ï¼Œè¯·è¾“å…¥æ­£ç¡®çš„èœå“ç¼–å·ï¼š");
                 if (my_num_input('y', MAX_STR_LEN, NULL, &temp_no))
                     return 0;
             }
         } while (flag == 0);
-        // ²ËÆ·±àºÅ´æÔÚÊ±ÊäÈëµã²ËÊıÁ¿
-        printf("\nÇëÊäÈëµã²ËÊıÁ¿£º");
+        // èœå“ç¼–å·å­˜åœ¨æ—¶è¾“å…¥ç‚¹èœæ•°é‡
+        printf("\nè¯·è¾“å…¥ç‚¹èœæ•°é‡ï¼š");
         if (choice_f('y', &temp_num, 1, 999))
             return 0;
         new_order[cnt].nums = temp_num;
         cnt++;
-        // ÅĞ¶ÏÊÇ·ñ¼ÌĞøµã²Ë
-        printf("\nÊÇ·ñ¼ÌĞøµã²Ë£¿ 1.ÊÇ 2.·ñ £º\n");
+        // åˆ¤æ–­æ˜¯å¦ç»§ç»­ç‚¹èœ
+        printf("\næ˜¯å¦ç»§ç»­ç‚¹èœï¼Ÿ 1.æ˜¯ 2.å¦ ï¼š\n");
         if (choice_f('y', &choice, 1, 2))
             return 0;
     } while (choice != 2);
     fclose(fp);
-    // ¸ù¾İ×ÀºÅÉú³É¶©µ¥ÎÄ¼şÃû
-    char fstr[50] = {'\0'};
+    // æ ¹æ®æ¡Œå·ç”Ÿæˆè®¢å•æ–‡ä»¶å
+    char fstr[50] = { '\0' };
     sprintf(fstr, "order//%d.txt", table_no);
-    // Ê×ÏÈÅĞ¶Ï¸ÃÎÄ¼şÊÇ·ñ´æÔÚ£¬Èç²»´æÔÚÔò´´½¨Ò»¸ö£¬²¢ÉèÖÃ±êÖ¾Î»Îª1
+    // é¦–å…ˆåˆ¤æ–­è¯¥æ–‡ä»¶æ˜¯å¦å­˜åœ¨ï¼Œå¦‚ä¸å­˜åœ¨åˆ™åˆ›å»ºä¸€ä¸ªï¼Œå¹¶è®¾ç½®æ ‡å¿—ä½ä¸º1
     fp = fopen(fstr, "r");
     if (fp == NULL)
     {
@@ -298,7 +298,7 @@ int create_order(dish_menu *dm, int mode, int count)
         fprintf(fp, "%d\n", 1);
     }
     fclose(fp);
-    // ¶øºóÒÔ×·¼ÓÄ£Ê½ÖØĞÂ´ò¿ªÎÄ¼ş£¬½«¶©µ¥ĞÅÏ¢Ìí¼Ó½øÈ¥
+    // è€Œåä»¥è¿½åŠ æ¨¡å¼é‡æ–°æ‰“å¼€æ–‡ä»¶ï¼Œå°†è®¢å•ä¿¡æ¯æ·»åŠ è¿›å»
     fp = fopen(fstr, "a");
     int i = 0;
     for (i = 0; i < cnt; i++)
@@ -306,38 +306,38 @@ int create_order(dish_menu *dm, int mode, int count)
     fclose(fp);
 }
 
-int display_menu(dish_menu *dm, int start, int end)
+int display_menu(dish_menu* dm, int start, int end)
 {
     int i;
     int choice;
     system("cls");
-    printf("----------------------------------------------------------\n¡¤µã²ÍÒ³Ãæ´ò¿ª³É¹¦£¬ÇëÑ¡ÔñÑ¡Ïî\n¡¤·µ»ØÉÏ¼¶²Ëµ¥Çë°´Esc\n----------------------------------------------------------\nĞòºÅ  ²ËÆ·±àºÅ    ²ËÆ·Ãû³Æ      ¼Û¸ñ\n");
+    printf("----------------------------------------------------------\nÂ·ç‚¹é¤é¡µé¢æ‰“å¼€æˆåŠŸï¼Œè¯·é€‰æ‹©é€‰é¡¹\nÂ·è¿”å›ä¸Šçº§èœå•è¯·æŒ‰Esc\n----------------------------------------------------------\nåºå·  èœå“ç¼–å·    èœå“åç§°      ä»·æ ¼\n");
     for (i = start; i < end; i++)
         printf(" %d\t %d\t  %s\t%.2lf\n", i + 1, dm[i].no, dm[i].dish_name, dm[i].dish_price);
     printf("----------------------------------------------------------\n");
-    // Ìí¼Ó¿ØÖÆÂß¼­£¬·ÀÖ¹ÎóÅĞ
+    // æ·»åŠ æ§åˆ¶é€»è¾‘ï¼Œé˜²æ­¢è¯¯åˆ¤
     if (start == 0 && end - start < RECORD_NUM)
     {
-        printf("3.µã²Ë\n");
-        printf("4.ÍË³ö\n");
+        printf("3.ç‚¹èœ\n");
+        printf("4.é€€å‡º\n");
         if (choice_f('y', &choice, 3, 4))
             return 4;
     }
     else if (start == 0)
     {
-        // ÎŞÉÏÒ»Ò³Ñ¡Ïî
-        printf("2.ÏÂÒ»Ò³\n");
-        printf("3.µã²Ë\n");
-        printf("4.ÍË³ö\n");
+        // æ— ä¸Šä¸€é¡µé€‰é¡¹
+        printf("2.ä¸‹ä¸€é¡µ\n");
+        printf("3.ç‚¹èœ\n");
+        printf("4.é€€å‡º\n");
         if (choice_f('y', &choice, 2, 4))
             return 4;
     }
     else if (end - start != RECORD_NUM)
     {
-        // ÎŞÏÂÒ»Ò³Ñ¡Ïî
-        printf("1.ÉÏÒ»Ò³\n");
-        printf("3.µã²Ë\n");
-        printf("4.ÍË³ö\n");
+        // æ— ä¸‹ä¸€é¡µé€‰é¡¹
+        printf("1.ä¸Šä¸€é¡µ\n");
+        printf("3.ç‚¹èœ\n");
+        printf("4.é€€å‡º\n");
         if (my_num_input('y', 1, NULL, &choice))
             return 1;
         int a, a0, b, b0;
@@ -348,7 +348,7 @@ int display_menu(dish_menu *dm, int start, int end)
             if (tmp_flag == 0)
             {
                 gotoxy(a0, b0);
-                printf("\nÊäÈë´íÎó£¬ÇëÖØĞÂÊäÈë : ");
+                printf("\nè¾“å…¥é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ : ");
                 getxy(&a, &b);
                 tmp_flag = 1;
             }
@@ -361,21 +361,21 @@ int display_menu(dish_menu *dm, int start, int end)
         }
     }
     else
-    { // Õı³£ÏÔÊ¾
-        printf("1.ÉÏÒ»Ò³\n");
-        printf("2.ÏÂÒ»Ò³\n");
-        printf("3.µã²Ë\n");
-        printf("4.ÍË³ö\n");
+    { // æ­£å¸¸æ˜¾ç¤º
+        printf("1.ä¸Šä¸€é¡µ\n");
+        printf("2.ä¸‹ä¸€é¡µ\n");
+        printf("3.ç‚¹èœ\n");
+        printf("4.é€€å‡º\n");
         if (choice_f('y', &choice, 1, 4))
             return 4;
     }
     return choice;
 }
 
-void page_controller(dish_menu *dm, int cnt)
+void page_controller(dish_menu* dm, int cnt)
 {
     int record_num = RECORD_NUM;
-    // Éè¶¨²¿·ÖÏÔÊ¾Ïà¹Ø±äÁ¿
+    // è®¾å®šéƒ¨åˆ†æ˜¾ç¤ºç›¸å…³å˜é‡
     int base = 0;
     int start, end;
     start = base;
