@@ -6,10 +6,10 @@ extern int admin_form();
 
 int main() {
 	FILE* fp;
-	if ((fp = fopen("hot_dish.txt", "r")) == NULL|| (fp = fopen("cold_dish.txt", "r")) == NULL || 
-		(fp = fopen("staple_food.txt", "r")) == NULL || (fp = fopen("drink.txt", "r")) == NULL)
+	if ((fp = fopen("menu//hot_dish.txt", "r")) == NULL|| (fp = fopen("menu//cold_dish.txt", "r")) == NULL || 
+		(fp = fopen("menu//staple_food.txt", "r")) == NULL || (fp = fopen("menu//drink.txt", "r")) == NULL)
 	{
-		printf("请将四个菜单txt文件与本程序放在同一目录\n");
+		printf("请将四个菜单txt文件放在本程序的下级目录“menu”文件夹中\n");
 		my_pause();
 		return 0;
 	}
