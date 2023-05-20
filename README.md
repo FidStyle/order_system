@@ -4,7 +4,7 @@
 
 ## 使用说明
 
-需要保证cold_dish.txt、hot_dish.txt、staple_food.txt、drink.txt与本程序存于相同目录
+需要保证 cold_dish.txt、hot_dish.txt、staple_food.txt、drink.txt 在本程序的下级目录“menu”文件夹中
 
 创建订单时将会在本程序同目录创建一个order文件夹，文件夹内订单信息以餐台号命名，如12.txt。
 
