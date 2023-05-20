@@ -6,10 +6,10 @@
 // 变量声明
 char pw[max_str_pw_len] = PASSWORD;
 // 部分全局变量
-char hot_dish_filename[max_str_name_len] = "hot_dish.txt";
-char cold_dish_filename[max_str_name_len] = "cold_dish.txt";
-char staple_food_filename[max_str_name_len] = "staple_food.txt";
-char drink_filename[max_str_name_len] = "drink.txt";
+char hot_dish_filename[max_str_name_len] = "menu//hot_dish.txt";
+char cold_dish_filename[max_str_name_len] = "menu//cold_dish.txt";
+char staple_food_filename[max_str_name_len] = "menu//staple_food.txt";
+char drink_filename[max_str_name_len] = "menu//drink.txt";
 // 函数声明
 int input_password(char pw_input[], int wrong_time); // 输入密码
 int check_password(char pw_input[]);                 // 密码检测
