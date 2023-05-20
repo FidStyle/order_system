@@ -6,12 +6,12 @@
 #include <windows.h>
 #include <io.h>
 #include <string.h>
-#include <conio.h>
+#include <conio.h>-
 
-#define MAX_LENGTH 100						   // 最大结构体数组宽度
-#define MAX_STR_LEN 20						   // 最大字符串输入长度
-#define MAX_NUM_LEN 6						   // 最大数字输入长度
 #define RECORD_NUM 8						   // 在这里设定每页显示的菜品数量
+#define MAX_LENGTH 100						   // 最大结构体数组宽度
+#define MAX_NUM_LEN 6						   // 最大数字输入长度
+#define MAX_STR_LEN 20						   // 最大字符串输入长度
 #define max_str_name_len 20					   // 菜品名字最大长度
 #define input_len 3							   // 假设有999张桌子
 #define MAX_STR_TABLE_LEN (pow(10, input_len)) // 假设有999张桌子
