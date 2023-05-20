@@ -19,11 +19,11 @@ void getxy(int* x, int* y)
 int my_num_input(char esc, int tmp_str_len, double* outputf, int* outputi)
 {
 	// 原创函数
-	char c_input[MAX_NUM_LEN];
+	char c_input[MAX_NUM_LEN + 1];
 	int over_flag = 0;
 	int max_str_len = MAX_NUM_LEN;
 	max_str_len = tmp_str_len;
-	memset(c_input, 0, MAX_NUM_LEN);
+	memset(c_input, 0, MAX_NUM_LEN + 1);
 	int x, y;
 	getxy(&x, &y);
 	int x0 = x, y0 = y;
@@ -107,20 +107,49 @@ int my_num_input(char esc, int tmp_str_len, double* outputf, int* outputi)
 int my_str_input(char esc, char* output)
 {
 	// 原创函数
-	char c_input[MAX_STR_LEN];
+	char c_input[MAX_STR_LEN + 2];
+	int over_flag = 0;
 	int max_str_len = MAX_STR_LEN;
-	memset(c_input, 0, MAX_STR_LEN);
+	memset(c_input, 0, MAX_STR_LEN + 2);
 	int x, y;
 	getxy(&x, &y);
 	int x0 = x, y0 = y;
-	char ch;
-	int cnt = 0;
+	char ch, ch_tmp;
+	int cnt = 0, tmp_chinese = 0;
 	do
 	{
 	start1:
+		tmp_chinese = 0;
 		ch = getch();
-		if (ch <= 0)
-			getch(); // 防止输入del、方向键等键位在Windows的映射成VK_DELETE、VK_LEFT等虚拟键位，使得getch()得到负数ASCII码。
+		if (ch <= 0) {
+			ch_tmp = getch(); // 检测是VK_DELETE、VK_LEFT等虚拟键位，还是中文。
+			if (ch_tmp < 0) {
+				tmp_chinese = 1; //确认输入的是中文，连续两个字节最高位均为1
+				if (cnt < max_str_len)
+				{
+					c_input[cnt] = ch;
+					cnt++;
+					c_input[cnt] = ch_tmp;
+					printf("%c%c", ch, ch_tmp);
+					x++;
+					x++;
+					cnt++;
+					if (over_flag == 1)
+					{
+						gotoxy(x, y);
+						printf("\n                        ");
+						gotoxy(x, y);
+					}
+				}
+				else
+				{
+					printf("\n输入长度不能超出预设值！");
+					over_flag = 1;
+					gotoxy(x, y);
+				}
+			}
+		}
+
 		if (ch == 27 && esc == 'y')
 		{
 			gotoxy(x, y);
@@ -130,22 +159,33 @@ int my_str_input(char esc, char* output)
 		{ // 回车键
 			if (c_input[0] == '\0')
 				goto start1;
+			if (over_flag == 1)
+			{
+				gotoxy(x, y);
+				printf("\n                        ");
+				gotoxy(x, y);
+			}
 			break;
 		}
 		else if (ch == 8 && x > x0)
 		{ // 退格键
 			cnt--;
 			x--;
+			if (c_input[cnt] < 0) {
+				cnt--;
+				x--;
+			}
 			gotoxy(x, y);
 			printf(" ");
+			if (c_input[cnt] < 0)printf(" ");
 			gotoxy(x, y);
-			if (x == x0 + max_str_len - 1)
+			if (over_flag == 1)
 			{
-				printf("\n                                ");
+				printf("\n                        ");
 				gotoxy(x, y);
 			}
 		}
-		else if (ch != 8)
+		else if (ch > 0 && ch != 8 && tmp_chinese == 0) // 输入非中文
 		{
 			if (cnt < max_str_len)
 			{
@@ -153,10 +193,17 @@ int my_str_input(char esc, char* output)
 				printf("%c", ch);
 				x++;
 				cnt++;
+				if (over_flag == 1)
+				{
+					gotoxy(x, y);
+					printf("\n                        ");
+					gotoxy(x, y);
+				}
 			}
 			else
 			{
 				printf("\n输入长度不能超出预设值！");
+				over_flag = 1;
 				gotoxy(x, y);
 			}
 		}
@@ -201,6 +248,6 @@ int choice_f(char choice_c, int* choice, int min, int max)
 
 void my_pause(void)
 {
-	printf("\n按任意键回到上级菜单");
+	printf("\n按任意键返回");
 	system("pause 1>nul 2>nul");
 }
