@@ -20,7 +20,7 @@ int customer_form()
     system("cls");
     printf("----------------------\n·顾客系统打开成功!\n·返回上级菜单请按Esc\n----------------------\n\n请输入您的餐台号：");
     int choice; // 输入餐台号
-    if (choice_f('y', &table_no, 1, 999))
+    if (choice_f('y', &table_no, 1, 999))//'y'代表可以按ESC返回上级菜单
         return 0;
     // 打开菜单界面
     do
@@ -49,12 +49,11 @@ int customer_form()
         case 7:
             order_status();
             break;
-        case 8:
-            break;
         default:
-            continue;
+            break;
         }
-    } while (choice > 8 || choice < 1);
+    } while (choice != 8);
+    return 0;
 }
 
 int customer_menu()
@@ -63,7 +62,7 @@ int customer_menu()
     int choice;
     printf("--------------------------\n·餐台：%d 请选择您的操作\n·返回上级菜单请按Esc\n--------------------------\n\n1.热菜\n2.凉菜\n3.主食\n4.饮品\n5.总览\n6.结账\n7.订单状态\n\n在这里输入:", table_no);
     // printf("8.退出\n");
-    if (choice_f('y', &choice, 1, 7))
+    if (choice_f('y', &choice, 1, 7))//'y'代表可以按ESC返回上级菜单
         return 8;
     return choice;
 }
@@ -101,7 +100,7 @@ void over_view()
     {
         printf("您还没有下单！\n");
         my_pause();
-        return 0;
+        return;
     }
     else
     {               // 从文件中获取订单内容
@@ -162,13 +161,13 @@ int check_bill()
     fclose(fp);
     printf("---------------------\n·返回上级菜单请按Esc\n·您需要支付：%.2lf元\n---------------------\n·请支付:", account);
     double pay;
-    if (my_num_input('y', MAX_STR_LEN, &pay, NULL))
+    if (my_num_input('y', MAX_NUM_LEN, &pay, NULL))//'y'代表可以按ESC返回上级菜单
         return 0;
     printf("\n");
     while (pay < account)
     {
         printf("客官，钱还不够！\n客官再给点：");
-        if (my_num_input('y', MAX_STR_LEN, &pay, NULL))
+        if (my_num_input('y', MAX_NUM_LEN, &pay, NULL))//'y'代表可以按ESC返回上级菜单
             return 0;
     }
     if (pay > account)
@@ -180,6 +179,7 @@ int check_bill()
         fprintf(fp, "%d %s %lf %d %d\n", my_order[i].no, my_order[i].dish_name, my_order[i].dish_price, my_order[i].type, my_order[i].nums);
     fclose(fp);
     my_pause();
+    return 0;
 }
 
 void order_status()
@@ -194,7 +194,7 @@ void order_status()
     {
         printf("您还没有下单！\n");
         my_pause();
-        return 0;
+        return;
     }
     int flag_0;
     fscanf(fp, "%d", &flag_0);
@@ -248,7 +248,7 @@ int create_order(dish_menu* dm, int mode, int count)
     do
     {
         printf("\n请输入菜品编号：");
-        if (my_num_input('y', MAX_STR_LEN, NULL, &temp_no))
+        if (my_num_input('y', MAX_NUM_LEN, NULL, &temp_no))//'y'代表可以按ESC返回上级菜单
             return 0;
         // 检测菜品编号是否存在
         int flag = 0;
@@ -271,19 +271,19 @@ int create_order(dish_menu* dm, int mode, int count)
             if (flag == 0)
             {
                 printf("\n输入的菜品编号不存在，请输入正确的菜品编号：");
-                if (my_num_input('y', MAX_STR_LEN, NULL, &temp_no))
+                if (my_num_input('y', MAX_NUM_LEN, NULL, &temp_no))//'y'代表可以按ESC返回上级菜单
                     return 0;
             }
         } while (flag == 0);
         // 菜品编号存在时输入点菜数量
         printf("\n请输入点菜数量：");
-        if (choice_f('y', &temp_num, 1, 999))
+        if (choice_f('y', &temp_num, 1, 999))//'y'代表可以按ESC返回上级菜单
             return 0;
         new_order[cnt].nums = temp_num;
         cnt++;
         // 判断是否继续点菜
         printf("\n是否继续点菜？ 1.是 2.否 ：\n");
-        if (choice_f('y', &choice, 1, 2))
+        if (choice_f('y', &choice, 1, 2))//'y'代表可以按ESC返回上级菜单
             return 0;
     } while (choice != 2);
     fclose(fp);
@@ -304,6 +304,7 @@ int create_order(dish_menu* dm, int mode, int count)
     for (i = 0; i < cnt; i++)
         fprintf(fp, "%d %s %lf %d %d\n", new_order[i].no, new_order[i].dish_name, new_order[i].dish_price, new_order[i].type, new_order[i].nums);
     fclose(fp);
+    return 0;
 }
 
 int display_menu(dish_menu* dm, int start, int end)
@@ -320,7 +321,7 @@ int display_menu(dish_menu* dm, int start, int end)
     {
         printf("3.点菜\n");
         printf("4.退出\n");
-        if (choice_f('y', &choice, 3, 4))
+        if (choice_f('y', &choice, 3, 4))//'y'代表可以按ESC返回上级菜单
             return 4;
     }
     else if (start == 0)
@@ -329,7 +330,7 @@ int display_menu(dish_menu* dm, int start, int end)
         printf("2.下一页\n");
         printf("3.点菜\n");
         printf("4.退出\n");
-        if (choice_f('y', &choice, 2, 4))
+        if (choice_f('y', &choice, 2, 4))//'y'代表可以按ESC返回上级菜单
             return 4;
     }
     else if (end - start != RECORD_NUM)
@@ -338,7 +339,7 @@ int display_menu(dish_menu* dm, int start, int end)
         printf("1.上一页\n");
         printf("3.点菜\n");
         printf("4.退出\n");
-        if (my_num_input('y', 1, NULL, &choice))
+        if (my_num_input('y', 1, NULL, &choice))//'y'代表可以按ESC返回上级菜单
             return 1;
         int a, a0, b, b0;
         getxy(&a0, &b0);
@@ -356,7 +357,7 @@ int display_menu(dish_menu* dm, int start, int end)
             for (int i = 0; i < MAX_STR_LEN; i++)
                 printf(" ");
             gotoxy(a, b);
-            if (my_num_input('y', 1, NULL, &choice))
+            if (my_num_input('y', 1, NULL, &choice))//'y'代表可以按ESC返回上级菜单
                 return 4;
         }
     }
@@ -366,7 +367,7 @@ int display_menu(dish_menu* dm, int start, int end)
         printf("2.下一页\n");
         printf("3.点菜\n");
         printf("4.退出\n");
-        if (choice_f('y', &choice, 1, 4))
+        if (choice_f('y', &choice, 1, 4))//'y'代表可以按ESC返回上级菜单
             return 4;
     }
     return choice;
