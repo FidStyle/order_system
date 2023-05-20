@@ -4,6 +4,6 @@ int main_form()
 	int choice;
 	system("cls");
 	printf("欢迎使用餐厅点菜系统！\n请选择您的身份：\n1.顾客\n2.管理人员\n3.退出\n\n请在这里输入：");
-	choice_f('n', &choice, 1, 3);
+	choice_f('n', &choice, 1, 3);  //根目录不需要按ESC返回上级菜单这个功能
 	return choice;
 }
