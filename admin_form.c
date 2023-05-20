@@ -14,8 +14,8 @@ char drink_filename[max_str_name_len] = "drink.txt";
 int input_password(char pw_input[], int wrong_time); // 输入密码
 int check_password(char pw_input[]);                 // 密码检测
 int admin_menu();                                    // 管理员菜单
-int order_check();                                   // 订单确认
-int order_complete();                                // 完成订单
+void order_check();                                   // 订单确认
+void order_complete();                                // 完成订单
 void income_check();                                 // 查看营业额
 int add_dish();                                      // 添加菜品
 int del_dish();                                      // 删除菜品
@@ -26,7 +26,7 @@ int admin_form()
     system("cls");
     printf("----------------------\n·管理员系统打开成功!\n·返回上级菜单请按Esc\n----------------------\n\n");
     int choice;
-    char pw_input[max_str_pw_len];
+    char pw_input[max_str_pw_len + 1];
     printf("·请在这里输入后台密码:\n");
     int wrong_time = 0;
     if (input_password(pw_input, wrong_time))
@@ -86,11 +86,12 @@ int admin_form()
             break;
         }
     } while (choice != 7);
+    return 0;
 }
 
 int input_password(char pw_input[], int wrong_time)
 {
-    memset(pw_input, 0, max_str_pw_len); // 清空字符串
+    memset(pw_input, 0, max_str_pw_len + 1);  // 清空字符串
     int x, y;
     x = 0;
     y = 6 + wrong_time;
@@ -159,12 +160,12 @@ int admin_menu()
     int choice;
     printf("--------------------------\n·请选择您的操作\n·返回上级菜单请按Esc\n--------------------------\n\n1.确认顾客订单\n2.完成顾客订单\n3.查看今日营业额\n4.添加菜品\n5.删除菜品\n6.修改价格\n\n在这里输入:");
     // printf("7.返回上级菜单\n");
-    if (choice_f('y', &choice, 1, 6))
+    if (choice_f('y', &choice, 1, 6))//'y'代表可以按ESC返回上级菜单
         return 7;
     return choice;
 }
 
-int order_check()
+void order_check()
 {
     system("cls");
     int tn = 1;
@@ -206,7 +207,7 @@ int order_check()
     my_pause();
 }
 
-int order_complete()
+void order_complete()
 {
     system("cls");
     int tn = 1;
@@ -238,7 +239,6 @@ int order_complete()
                     fseek(fp, 0, SEEK_SET);
                     fprintf(fp, "%d", 4);
                     fclose(fp);
-
                     printf("\n桌号:%d的订单已完成！\n", tn);
                 }
             }
@@ -262,7 +262,6 @@ void income_check()
     // 根据桌号检索文件，生成文件名
     for (tn = 1; tn <= MAX_STR_TABLE_LEN; tn++)
     {
-        char str[5];
         char fstr[50] = { '\0' };
         sprintf(fstr, "order//%d.txt", tn);
         FILE* fp;
@@ -318,11 +317,9 @@ int add_dish()
     {
         dish_menu new_dish;
         system("cls");
-        printf("-------------------------\n·添加菜品界面打开成功!\n·返回上级菜单请按Esc\n-------------------------\n");
-        printf("\n请输入菜品种类：");
-        if (my_num_input('y', 1, NULL, &new_dish.type))
+        printf("-------------------------\n·添加菜品界面打开成功!\n·返回上级菜单请按Esc\n-------------------------\n\n1.热菜\n2.凉菜\n3.主食\n4.饮品\n\n请输入菜品种类：");
+        if (choice_f('y', &new_dish.type, 1, 4))//'y'代表可以按ESC返回上级菜单
             return 0;
-
         char filename[max_str_name_len] = { '\0' };
         switch (new_dish.type)
         {
@@ -339,19 +336,17 @@ int add_dish()
             strcpy(filename, drink_filename);
             break;
         }
-
         printf("\n请输入菜品编号：");
         FILE* chk_fp;
         int tmp_flag = 0;
-
+        int a, a0, b, b0, no_exist;
     chk_no: // 检查菜品编号是否已存在
-        if (my_num_input('y', 2, NULL, &new_dish.no))
+        if (my_num_input('y', 2, NULL, &new_dish.no))//'y'代表可以按ESC返回上级菜单
             return 0;
-        int a, a0, b, b0;
         getxy(&a0, &b0);
         chk_fp = fopen(filename, "r");
         dish_menu chk_dish;
-        int no_exist = 1;
+        no_exist = 1;
         while (fscanf(chk_fp, "%d %*s %*lf %*d", &chk_dish.no) == 1)
         {
             if (new_dish.no == chk_dish.no)
@@ -375,22 +370,20 @@ int add_dish()
             gotoxy(a, b);
             goto chk_no;
         }
-
         printf("\n请输入菜品名称：");
-        if (my_str_input('y', new_dish.dish_name))
+        if (my_str_input('y', new_dish.dish_name))//'y'代表可以按ESC返回上级菜单
             return 0;
         printf("\n请输入菜品价格：");
-        if (my_num_input('y', MAX_NUM_LEN, &new_dish.dish_price, NULL))
+        if (my_num_input('y', MAX_NUM_LEN, &new_dish.dish_price, NULL))//'y'代表可以按ESC返回上级菜单
             return 0;
-
         fp = fopen(filename, "a");
-
         fprintf(fp, "%d\n%s\n%lf\n%d\n", new_dish.no, new_dish.dish_name, new_dish.dish_price, new_dish.type);
         fclose(fp);
         printf("\n\n是否继续添加菜品：\n1.是\n2.否\n");
-        if (choice_f('y', &choice, 1, 2))
+        if (choice_f('y', &choice, 1, 2))//'y'代表可以按ESC返回上级菜单
             return 0;
     } while (choice != 2);
+    return 0;
 }
 
 int del_dish()
@@ -402,7 +395,7 @@ int del_dish()
         system("cls");
         printf("--------------------------\n·请选择您的操作\n·返回上级菜单请按Esc\n--------------------------\n\n1.热菜\n2.凉菜\n3.主食\n4.饮品\n\n请选择删除菜品的类型:");
         int type;
-        if (choice_f('y', &type, 1, 4))
+        if (choice_f('y', &type, 1, 4))//'y'代表可以按ESC返回上级菜单
             return 0;
         // 依据菜品类型打开对应文件
         char filename[max_str_name_len] = { '\0' };
@@ -441,7 +434,7 @@ int del_dish()
         int a, a0, b, b0;
         getxy(&a0, &b0);
         printf("\n请输入需要删除的菜品编号:");
-        if (my_num_input('y', 2, NULL, &del_no))
+        if (my_num_input('y', 2, NULL, &del_no))//'y'代表可以按ESC返回上级菜单
             return 0;
         // 检索文件 该菜品是否存在
         int flag = 0;
@@ -460,7 +453,7 @@ int del_dish()
                 gotoxy(a0, b0);
                 printf("\n没有该菜品!                            \n请重新输入 : ");
                 getxy(&a, &b);
-                if (my_num_input('y', 2, NULL, &del_no))
+                if (my_num_input('y', 2, NULL, &del_no))//'y'代表可以按ESC返回上级菜单
                     return 0;
                 gotoxy(a, b);
                 for (int i = 0; i < MAX_STR_LEN; i++)
@@ -470,7 +463,7 @@ int del_dish()
         } while (flag == 0);
         printf("\n是否确认删除<%s>菜品？1.是 2.否\n", dm[pos].dish_name);
         int del_choice;
-        if (choice_f('y', &del_choice, 1, 2))
+        if (choice_f('y', &del_choice, 1, 2))//'y'代表可以按ESC返回上级菜单
             return 0;
         // 删除菜品
         if (del_choice == 1)
@@ -503,9 +496,10 @@ int del_dish()
             printf("删除成功！\n");
         }
         printf("\n是否继续删除？1.是，2否？\n");
-        if (choice_f('y', &choice, 1, 2))
+        if (choice_f('y', &choice, 1, 2))//'y'代表可以按ESC返回上级菜单
             return 0;
     } while (choice != 2);
+    return 0;
 }
 
 int price_adjust()
@@ -517,7 +511,7 @@ int price_adjust()
         system("cls");
         printf("--------------------------\n·请选择您的操作\n·返回上级菜单请按Esc\n--------------------------\n\n1.热菜\n2.凉菜\n3.主食\n4.饮品\n\n请选择修改菜品的类型:");
         int type;
-        if (choice_f('y', &type, 1, 4))
+        if (choice_f('y', &type, 1, 4))//'y'代表可以按ESC返回上级菜单
             return 0;
         // 依据菜品类型打开对应文件
         char filename[max_str_name_len];
@@ -552,7 +546,7 @@ int price_adjust()
         fclose(fp);
         printf("\n请输入需要修改价格的菜品编号：");
         int adjust_no;
-        if (my_num_input('y', 2, NULL, &adjust_no))
+        if (my_num_input('y', 2, NULL, &adjust_no))//'y'代表可以按ESC返回上级菜单
             return 0;
         int a, a0, b, b0, tmp_flag = 0;
         getxy(&a0, &b0);
@@ -581,14 +575,14 @@ int price_adjust()
                 for (int i = 0; i < MAX_STR_LEN; i++)
                     printf(" ");
                 gotoxy(a, b);
-                if (my_num_input('y', 2, NULL, &adjust_no))
+                if (my_num_input('y', 2, NULL, &adjust_no))//'y'代表可以按ESC返回上级菜单
                     return 0;
             }
         }
         // 修改菜品
         printf("\n是否确认修改<%s>菜品的价格？1.是 2.否\n", dm[pos].dish_name);
         int adjust_choice;
-        if (choice_f('y', &adjust_choice, 1, 6))
+        if (choice_f('y', &adjust_choice, 1, 2))//'y'代表可以按ESC返回上级菜单
             break;
         if (adjust_choice == 1)
         {
@@ -613,7 +607,8 @@ int price_adjust()
             printf("\n修改成功！\n");
         }
         printf("\n是否继续修改？1.是，2否？\n");
-        if (choice_f('y', &choice, 1, 2))
+        if (choice_f('y', &choice, 1, 2))//'y'代表可以按ESC返回上级菜单
             return 0;
     } while (choice != 2);
+    return 0;
 }
