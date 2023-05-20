@@ -31,6 +31,6 @@ drink.txt 对应于饮品菜单
 
 ## 作者
 
-本程序由FidStyle编写，如有问题请联系[FidStyle](https://github.com/FidStyle/order_system)
+本程序由FidStyle编写，如有问题请联系[FidStyle](https://github.com/FidStyle)
 
 
